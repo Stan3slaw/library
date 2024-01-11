@@ -26,9 +26,6 @@ export class BookService {
       await this.authorRepository.save(author);
     }
 
-    console.log({ author });
-    console.log({ bookDto });
-
     const createdBook = await this.bookRepository.create({
       name: bookDto.name,
       genre: bookDto.genre,
