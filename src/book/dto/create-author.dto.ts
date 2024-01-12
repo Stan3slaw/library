@@ -7,6 +7,7 @@ import {
 
 export class CreateAuthorDto {
   @IsNumber()
+  @IsNumber({}, { message: 'Author id should be a number' })
   readonly id?: number;
 
   @MaxLength(MAX_AUTHOR_NAME_CHARACTERS, {

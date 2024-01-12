@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -42,5 +42,25 @@ export class BookService {
     const books = await this.bookRepository.find({ relations: ['author'] });
 
     return books;
+  }
+
+  async findOne(bookId: number): Promise<Book> {
+    const book = await this.bookRepository.findOne({ where: { id: bookId } });
+
+    if (!book) {
+      throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    return book;
+  }
+
+  async delete(bookId: number): Promise<void> {
+    const book = await this.bookRepository.findOne({ where: { id: bookId } });
+
+    if (!book) {
+      throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    this.bookRepository.delete({ id: bookId });
   }
 }

@@ -23,11 +23,11 @@ export class CreateBookDto {
   readonly description: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumber({}, { message: 'Book number of pages should be a number' })
   readonly numberOfPages: number;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumber({}, { message: 'Book year should be a number' })
   readonly year: number;
 
   @IsNotEmpty()

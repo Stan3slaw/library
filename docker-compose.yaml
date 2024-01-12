@@ -19,9 +19,10 @@ services:
       - .env
     environment:
       PG_HOST: host.docker.internal
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_ADMIN_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_ADMIN_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_ADMIN_USERNAME}:${MONGODB_ADMIN_PASSWORD}@mongo:27017/
+      MONGODB_USER_NAME:
+      MONGODB_USER_PASSWORD:
+      MONGODB_DATABASE_NAME:
+      MONGODB_URL:
     depends_on:
       - postgres
       - mongodb
@@ -47,8 +48,8 @@ services:
     networks:
       - sharednet
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER_NAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_USER_PASSWORD}
     ports:
       - 27017:27017
 networks:
