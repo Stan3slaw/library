@@ -38,8 +38,8 @@ services:
       PG_DATA: /var/lib/postgresql/data
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./migrations/create_tables.sql:/docker-entrypoint-initdb.d/01_create_tables.sql
-      - ./migrations/seed_data.sql:/docker-entrypoint-initdb.d/02_seed_data.sql
+      - ./migrations/create-tables.sql:/docker-entrypoint-initdb.d/01_create-tables.sql
+      - ./migrations/seed-data.sql:/docker-entrypoint-initdb.d/02_seed-data.sql
     ports:
       - 5432:5432
   mongodb:
