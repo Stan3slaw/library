@@ -7,3 +7,7 @@ This project was created in educational purposes to get experience in working wi
 ```bash
 docker compose up
 ```
+
+## Documentation
+
+- [PostgreSQL Database Normalization](./documentation/PG-DATABASE-NORMALIZATION.md)
