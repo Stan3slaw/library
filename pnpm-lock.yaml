@@ -49,6 +49,9 @@ devDependencies:
   '@nestjs/cli':
     specifier: 9.0.0
     version: 9.0.0
+  '@nestjs/mapped-types':
+    specifier: 2.0.4
+    version: 2.0.4(@nestjs/common@9.0.0)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
   '@nestjs/schematics':
     specifier: 9.0.0
     version: 9.0.0(chokidar@3.5.3)(typescript@4.7.4)
@@ -128,7 +131,7 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
     dev: true
 
   /@angular-devkit/core@14.0.5(chokidar@3.5.3):
@@ -218,7 +221,7 @@ packages:
     dependencies:
       '@babel/types': 7.23.6
       '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       jsesc: 2.5.2
     dev: true
 
@@ -692,7 +695,7 @@ packages:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       '@types/node': 18.11.18
       chalk: 4.1.2
       collect-v8-coverage: 1.0.2
@@ -726,7 +729,7 @@ packages:
     resolution: {integrity: sha512-MHjT95QuipcPrpLM+8JMSzFx6eHp5Bm+4XeFDJlwsvVBjmKNiIAvasGK2fxz2WbGRlnvqehFbh07MMa7n3YJnw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       callsites: 3.1.0
       graceful-fs: 4.2.11
     dev: true
@@ -757,7 +760,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.7
       '@jest/types': 29.6.3
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       babel-plugin-istanbul: 6.1.1
       chalk: 4.1.2
       convert-source-map: 2.0.0
@@ -792,7 +795,7 @@ packages:
     dependencies:
       '@jridgewell/set-array': 1.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
     dev: true
 
   /@jridgewell/resolve-uri@3.1.1:
@@ -809,22 +812,22 @@ packages:
     resolution: {integrity: sha512-UTYAUj/wviwdsMfzoSJspJxbkH5o1snzwX0//0ENX1u/55kkZZkcTZP6u9bwKGkv+dkk9at4m1Cpt0uY80kcpQ==}
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
     dev: true
 
   /@jridgewell/sourcemap-codec@1.4.15:
     resolution: {integrity: sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==}
     dev: true
 
-  /@jridgewell/trace-mapping@0.3.20:
-    resolution: {integrity: sha512-R8LcPeWZol2zR8mmH3JeKQ6QRCFb7XgUhV9ZlGhHLGyg4wpPiPZNQOOWhFZhxKw8u//yTbNGI42Bx/3paXEQ+Q==}
+  /@jridgewell/trace-mapping@0.3.21:
+    resolution: {integrity: sha512-SRfKmRe1KvYnxjEMtxEr+J4HIeMX5YBg/qhRHpxEIGjhX1rshcHlnFUE9K0GazhVKWM7B+nARSkV8LuvJdJ5/g==}
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@mongodb-js/saslprep@1.1.3:
-    resolution: {integrity: sha512-SyCxhJfmK6MoLNV5SbDpNdUy9SDv5H7y9/9rl3KpnwgTHWuNNMc87zWqbcIZXNWY+aUjxLGLEcvHoLagG4tWCg==}
+  /@mongodb-js/saslprep@1.1.4:
+    resolution: {integrity: sha512-8zJ8N1x51xo9hwPh6AWnKdLGEC5N3lDa6kms1YHmFBoRhTpJR6HG8wWk0td1MVCu9cD4YBrvjZEtd5Obw0Fbnw==}
     dependencies:
       sparse-bitfield: 3.0.3
     dev: false
@@ -933,6 +936,25 @@ packages:
       uuid: 8.3.2
     transitivePeerDependencies:
       - encoding
+
+  /@nestjs/mapped-types@2.0.4(@nestjs/common@9.0.0)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13):
+    resolution: {integrity: sha512-xl+gUSp0B+ln1VSNoUftlglk8dfpUes3DHGxKZ5knuBxS5g2H/8p9/DSBOYWUfO5f4u9s6ffBPZ71WO+tbe5SA==}
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
+      class-transformer: ^0.4.0 || ^0.5.0
+      class-validator: ^0.13.0 || ^0.14.0
+      reflect-metadata: ^0.1.12
+    peerDependenciesMeta:
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+    dependencies:
+      '@nestjs/common': 9.0.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.2.0)
+      class-transformer: 0.5.1
+      class-validator: 0.14.0
+      reflect-metadata: 0.1.13
+    dev: true
 
   /@nestjs/mongoose@10.0.2(@nestjs/common@9.0.0)(@nestjs/core@9.0.0)(mongoose@8.0.4)(reflect-metadata@0.1.13)(rxjs@7.2.0):
     resolution: {integrity: sha512-ITHh075DynjPIaKeJh6WkarS21WXYslu4nrLkNPbWaCP6JfxVAOftaA2X5tPSiiE/gNJWgs+QFWsfCFZUUenow==}
@@ -1987,8 +2009,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001576
-      electron-to-chromium: 1.4.628
+      caniuse-lite: 1.0.30001579
+      electron-to-chromium: 1.4.639
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
     dev: true
@@ -2048,7 +2070,7 @@ packages:
     dependencies:
       function-bind: 1.1.2
       get-intrinsic: 1.2.2
-      set-function-length: 1.1.1
+      set-function-length: 1.2.0
 
   /callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
@@ -2065,8 +2087,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /caniuse-lite@1.0.30001576:
-    resolution: {integrity: sha512-ff5BdakGe2P3SQsMsiqmt1Lc8221NR1VzHj5jXN5vBny9A6fpze94HiVV/n7XRosOlsShJcvMv5mdnpjOGCEgg==}
+  /caniuse-lite@1.0.30001579:
+    resolution: {integrity: sha512-u5AUVkixruKHJjw/pj9wISlcMpgFWzSrczLZbrqBSxukQixmg0SJ5sZTpvaFvxU0HoQKd4yoyAogyrAz9pzJnA==}
     dev: true
 
   /chalk@2.4.2:
@@ -2476,6 +2498,11 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /dotenv@16.3.2:
+    resolution: {integrity: sha512-HTlk5nmhkm8F6JcdXvHIzaorzCoziNQT9mGxLPVXW8wJF1TiGSL60ZGB4gHWabHOaMmWmhvk2/lPHfnBiT78AQ==}
+    engines: {node: '>=12'}
+    dev: false
+
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: false
@@ -2483,8 +2510,8 @@ packages:
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  /electron-to-chromium@1.4.628:
-    resolution: {integrity: sha512-2k7t5PHvLsufpP6Zwk0nof62yLOsCf032wZx7/q0mv8gwlXjhcxI3lz6f0jBr0GrnWKcm3burXzI3t5IrcdUxw==}
+  /electron-to-chromium@1.4.639:
+    resolution: {integrity: sha512-CkKf3ZUVZchr+zDpAlNLEEy2NJJ9T64ULWaDgy3THXXlPVPkLu3VOs9Bac44nebVtdwl2geSj6AxTtGDOxoXhg==}
     dev: true
 
   /emittery@0.13.1:
@@ -2563,7 +2590,7 @@ packages:
       object-keys: 1.1.1
       object.assign: 4.1.5
       regexp.prototype.flags: 1.5.1
-      safe-array-concat: 1.0.1
+      safe-array-concat: 1.1.0
       safe-regex-test: 1.0.2
       string.prototype.trim: 1.2.8
       string.prototype.trimend: 1.0.7
@@ -4456,7 +4483,7 @@ packages:
       socks:
         optional: true
     dependencies:
-      '@mongodb-js/saslprep': 1.1.3
+      '@mongodb-js/saslprep': 1.1.4
       bson: 6.2.0
       mongodb-connection-string-url: 2.6.0
     dev: false
@@ -5154,8 +5181,8 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /safe-array-concat@1.0.1:
-    resolution: {integrity: sha512-6XbUAseYE2KtOuGueyeobCySj9L4+66Tn6KQMOPQJrAJEowYKW/YR/MGJZl7FdydUdaFu4LYyDZjxf4/Nmo23Q==}
+  /safe-array-concat@1.1.0:
+    resolution: {integrity: sha512-ZdQ0Jeb9Ofti4hbt5lX3T2JcAamT9hfzYU1MNB+z/jaEbB6wfFfPIR/zEORmZqobkCCJhSjodobH6WHNmJ97dg==}
     engines: {node: '>=0.4'}
     dependencies:
       call-bind: 1.0.5
@@ -5241,11 +5268,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /set-function-length@1.1.1:
-    resolution: {integrity: sha512-VoaqjbBJKiWtg4yRcKBQ7g7wnGnLV3M8oLvVWwOk2PdYY6PEFegR1vezXR0tw6fZGF9csVakIRjrJiy2veSBFQ==}
+  /set-function-length@1.2.0:
+    resolution: {integrity: sha512-4DBHDoyHlM1IRPGYcoxexgh67y4ueR53FKV1yyxwFMY7aCqcN/38M1+SwZ/qJQ8iLv7+ck385ot4CcisOAPT9w==}
     engines: {node: '>= 0.4'}
     dependencies:
       define-data-property: 1.1.1
+      function-bind: 1.1.2
       get-intrinsic: 1.2.2
       gopd: 1.0.1
       has-property-descriptors: 1.0.1
@@ -5558,11 +5586,11 @@ packages:
       uglify-js:
         optional: true
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.26.0
+      terser: 5.27.0
       webpack: 5.73.0
     dev: true
 
@@ -5582,16 +5610,16 @@ packages:
       uglify-js:
         optional: true
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.26.0
+      terser: 5.27.0
       webpack: 5.89.0
     dev: true
 
-  /terser@5.26.0:
-    resolution: {integrity: sha512-dytTGoE2oHgbNV9nTzgBEPaqAWvcJNl66VZ0BkJqlvp71IjO8CxdBx/ykCNb47cLnCmCvRZ6ZR0tLkqvZCdVBQ==}
+  /terser@5.27.0:
+    resolution: {integrity: sha512-bi1HRwVRskAjheeYl291n3JC4GgO/Ty4z1nVs5AAsmonJulGxpSektecnNedrwK9C7vpvVtcX3cw00VSLt7U2A==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -5943,7 +5971,7 @@ packages:
       cli-highlight: 2.1.11
       dayjs: 1.11.10
       debug: 4.3.4
-      dotenv: 16.3.1
+      dotenv: 16.3.2
       glob: 10.3.10
       mkdirp: 2.1.6
       pg: 8.11.3
@@ -6026,7 +6054,7 @@ packages:
     resolution: {integrity: sha512-/EH/sDgxU2eGxajKdwLCDmQ4FWq+kpi3uCmBGpw1xJtnAxEjlD8j8PEiGWpCIMIs3ciNAgH0d3TTJiUkYzyZjA==}
     engines: {node: '>=10.12.0'}
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.20
+      '@jridgewell/trace-mapping': 0.3.21
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
     dev: true
