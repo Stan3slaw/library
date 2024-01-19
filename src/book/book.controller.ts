@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
@@ -13,6 +14,7 @@ import {
 import { BookService } from './book.service';
 import type { Book } from './entities/book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Controller('book')
 export class BookController {
@@ -32,6 +34,14 @@ export class BookController {
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) bookId: number): Promise<Book> {
     return this.booksService.findOne(bookId);
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id', ParseIntPipe) bookId: number,
+    @Body() updateBookDto: UpdateBookDto,
+  ): Promise<Book> {
+    return this.booksService.update(bookId, updateBookDto);
   }
 
   @Delete(':id')

@@ -7,6 +7,7 @@ import ormconfig from './config/configuration';
 import { Book } from './book/entities/book.entity';
 import { Author } from './book/entities/author.entity';
 import { ReviewModule } from './review/review.module';
+import { AuthorModule } from './author/author.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ReviewModule } from './review/review.module';
     }),
     BookModule,
     ReviewModule,
+    AuthorModule,
   ],
 })
 export class AppModule {}

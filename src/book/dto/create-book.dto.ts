@@ -4,7 +4,7 @@ import {
   MAX_BOOK_GENRE_CHARACTERS,
   MAX_BOOK_NAME_CHARACTERS,
 } from '../constants';
-import { CreateAuthorDto } from './create-author.dto';
+import { CreateAuthorDto } from '../../author/dto/create-author.dto';
 
 export class CreateBookDto {
   @MaxLength(MAX_BOOK_NAME_CHARACTERS, {

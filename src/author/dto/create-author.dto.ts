@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber, MaxLength } from 'class-validator';
 import {
   MAX_AUTHOR_NAME_CHARACTERS,
   MAX_AUTHOR_SURNAME_CHARACTERS,
-} from '../constants';
+} from '../../book/constants';
 
 export class CreateAuthorDto {
   @IsNumber()

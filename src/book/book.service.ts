@@ -2,29 +2,24 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { AuthorService } from 'src/author/author.service';
 import { Book } from './entities/book.entity';
 import { Author } from './entities/author.entity';
 import type { CreateBookDto } from './dto/create-book.dto';
+import type { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(Book) private readonly bookRepository: Repository<Book>,
     @InjectRepository(Author)
-    private readonly authorRepository: Repository<Author>,
+    private readonly authorService: AuthorService,
   ) {}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
     const { author: authorDto, ...bookDto } = createBookDto;
 
-    let author = await this.authorRepository.findOne({
-      where: { id: authorDto.id },
-    });
-
-    if (!author) {
-      author = await this.authorRepository.create(authorDto);
-      await this.authorRepository.save(author);
-    }
+    const author = await this.authorService.findOneOrCreate(authorDto);
 
     const createdBook = await this.bookRepository.create({
       name: bookDto.name,
@@ -52,6 +47,25 @@ export class BookService {
     }
 
     return book;
+  }
+
+  async update(bookId: number, updateBookDto: UpdateBookDto): Promise<Book> {
+    const foundBook = await this.findOne(bookId);
+
+    if (!foundBook) {
+      throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    const author = await this.authorService.findOneOrCreate(
+      updateBookDto.author,
+    );
+
+    const updatedBook = await this.bookRepository.save({
+      ...foundBook,
+      ...{ ...updateBookDto, author: { ...author } },
+    });
+
+    return updatedBook;
   }
 
   async delete(bookId: number): Promise<void> {
