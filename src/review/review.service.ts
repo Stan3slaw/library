@@ -6,6 +6,7 @@ import type { ObjectId } from 'mongoose';
 import { BookService } from 'src/book/book.service';
 import type { ReviewDocument } from './review.schema';
 import type { CreateReviewDto } from './dto/create-review.dto';
+import type { UpdateReviewDto } from './dto/update-review.dto';
 
 @Injectable()
 export class ReviewService {
@@ -27,20 +28,45 @@ export class ReviewService {
     return savedReview;
   }
 
-  async findAll(): Promise<ReviewDocument[]> {
-    const reviews = await this.reviewModel.find();
+  async findAllForParticularBook(bookId: number): Promise<ReviewDocument[]> {
+    const reviews = await this.reviewModel.find({ bookId });
 
     return reviews;
   }
 
-  async findOne(reviewId: ObjectId): Promise<ReviewDocument> {
-    const review = await this.reviewModel.findById(reviewId);
+  async findOneForParticularBook(
+    reviewId: ObjectId,
+    bookId: number,
+  ): Promise<ReviewDocument> {
+    const [review] = await this.reviewModel.find({
+      _id: reviewId,
+      bookId,
+    });
 
     if (!review) {
       throw new HttpException('Review does not exist', HttpStatus.NOT_FOUND);
     }
 
     return review;
+  }
+
+  async update(
+    reviewId: ObjectId,
+    updateReviewDto: UpdateReviewDto,
+  ): Promise<ReviewDocument> {
+    const book = await this.bookService.findOne(updateReviewDto.bookId);
+
+    if (!book) {
+      throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    const updatedReview = await this.reviewModel.findOneAndUpdate(
+      { _id: reviewId },
+      updateReviewDto,
+      { new: true },
+    );
+
+    return updatedReview;
   }
 
   async delete(reviewId: ObjectId): Promise<void> {

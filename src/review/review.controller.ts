@@ -4,7 +4,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
+  Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +17,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import type { ReviewDocument } from './review.schema';
 import { ParseObjectIdPipe } from './pipes/parse-object-id.pipe';
+import { UpdateReviewDto } from './dto/update-review.dto';
 
 @Controller('review')
 export class ReviewController {
@@ -28,15 +32,27 @@ export class ReviewController {
   }
 
   @Get()
-  async findAll(): Promise<ReviewDocument[]> {
-    return this.reviewService.findAll();
+  async findAllForParticularBook(
+    @Query('bookId', ParseIntPipe) bookId: number,
+  ): Promise<ReviewDocument[]> {
+    return this.reviewService.findAllForParticularBook(bookId);
   }
 
   @Get(':id')
   async findOne(
     @Param('id', ParseObjectIdPipe) reviewId: ObjectId,
+    @Query('bookId', ParseIntPipe) bookId: number,
   ): Promise<ReviewDocument> {
-    return this.reviewService.findOne(reviewId);
+    return this.reviewService.findOneForParticularBook(reviewId, bookId);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Patch(':id')
+  async update(
+    @Param('id', ParseObjectIdPipe) reviewId: ObjectId,
+    @Body() updateReviewDto: UpdateReviewDto,
+  ): Promise<ReviewDocument> {
+    return this.reviewService.update(reviewId, updateReviewDto);
   }
 
   @Delete(':id')
