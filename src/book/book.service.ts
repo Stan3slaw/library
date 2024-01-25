@@ -40,6 +40,13 @@ export class BookService {
   }
 
   async findOne(bookId: number): Promise<Book> {
+    if (!bookId) {
+      throw new HttpException(
+        'Book id is not specified',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const book = await this.bookRepository.findOne({ where: { id: bookId } });
 
     if (!book) {
@@ -69,6 +76,13 @@ export class BookService {
   }
 
   async delete(bookId: number): Promise<void> {
+    if (!bookId) {
+      throw new HttpException(
+        'Book id is not specified',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const book = await this.bookRepository.findOne({ where: { id: bookId } });
 
     if (!book) {
