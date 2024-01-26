@@ -38,6 +38,7 @@ export class BookController {
     return this.booksService.findOne(bookId);
   }
 
+  @UsePipes(new ValidationPipe())
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) bookId: number,

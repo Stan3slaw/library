@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { AuthorService } from 'src/author/author.service';
+import type { Author } from 'src/author/entities/author.entity';
 import { Book } from './entities/book.entity';
-import { Author } from '../author/entities/author.entity';
 import type { CreateBookDto } from './dto/create-book.dto';
 import type { UpdateBookDto } from './dto/update-book.dto';
 import type { BookResponseDto } from './dto/book.dto';
@@ -13,7 +13,6 @@ import type { BookResponseDto } from './dto/book.dto';
 export class BookService {
   constructor(
     @InjectRepository(Book) private readonly bookRepository: Repository<Book>,
-    @InjectRepository(Author)
     private readonly authorService: AuthorService,
   ) {}
 
@@ -40,9 +39,20 @@ export class BookService {
   async create(createBookDto: CreateBookDto): Promise<BookResponseDto> {
     const { author: authorDto, ...bookDto } = createBookDto;
 
-    const author = await this.authorService.findOneOrCreate(authorDto);
+    let author: Author | null = null;
 
-    const createdBook = await this.bookRepository.create({
+    if (authorDto.id) {
+      author = await this.authorService.findOne(authorDto.id);
+    }
+
+    if (!author) {
+      author = await this.authorService.create({
+        name: authorDto.name,
+        surname: authorDto.surname,
+      });
+    }
+
+    const createdBook = this.bookRepository.create({
       name: bookDto.name,
       genre: bookDto.genre,
       description: bookDto.description,
@@ -73,7 +83,10 @@ export class BookService {
       );
     }
 
-    const book = await this.bookRepository.findOne({ where: { id: bookId } });
+    const book = await this.bookRepository.findOne({
+      where: { id: bookId },
+      relations: ['author'],
+    });
 
     if (!book) {
       throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
@@ -92,13 +105,9 @@ export class BookService {
       throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
     }
 
-    const author = await this.authorService.findOneOrCreate(
-      updateBookDto.author,
-    );
-
     const updatedBook = await this.bookRepository.save({
       ...foundBook,
-      ...{ ...updateBookDto, author: { ...author } },
+      ...updateBookDto,
     });
 
     return BookService.mapBookEntityToBookResponseDto(updatedBook);

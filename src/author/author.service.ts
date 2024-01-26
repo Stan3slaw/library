@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Author } from 'src/author/entities/author.entity';
 import type { CreateAuthorDto } from './dto/create-author.dto';
-import type { AuthorResponseDto } from './dto/author.dto';
 
 @Injectable()
 export class AuthorService {
@@ -13,32 +12,20 @@ export class AuthorService {
     private readonly authorRepository: Repository<Author>,
   ) {}
 
-  private static mapAuthorEntityToAuthorResponseDto(
-    authorEntity: Author,
-  ): AuthorResponseDto {
-    return {
-      id: authorEntity.id,
-      name: authorEntity.name,
-      surname: authorEntity.surname,
-      createdAt: authorEntity.created_at,
-      updatedAt: authorEntity.updated_at,
-    };
+  async create(createAuthorDto: CreateAuthorDto): Promise<Author> {
+    const createdAuthor = this.authorRepository.create(createAuthorDto);
+    await this.authorRepository.save(createdAuthor);
+
+    return createdAuthor;
   }
 
-  async findOneOrCreate(
-    createAuthorDto: CreateAuthorDto,
-  ): Promise<AuthorResponseDto> {
-    const author = await this.authorRepository.findOne({
-      where: { id: createAuthorDto?.id },
-    });
+  async findOne(authorId: number): Promise<Author> {
+    const foundAuthor = await this.authorRepository.findOneBy({ id: authorId });
 
-    if (author) {
-      return AuthorService.mapAuthorEntityToAuthorResponseDto(author);
+    if (!foundAuthor) {
+      throw new HttpException('Author does not exist', HttpStatus.NOT_FOUND);
     }
 
-    const createdAuthor = await this.authorRepository.create(createAuthorDto);
-    await this.authorRepository.save(author);
-
-    return AuthorService.mapAuthorEntityToAuthorResponseDto(createdAuthor);
+    return foundAuthor;
   }
 }
