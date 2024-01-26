@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 
 import { MAX_RATING, MIN_RATING } from '../constants';
 
@@ -17,6 +17,7 @@ export class CreateReviewDto {
   })
   readonly rating: number;
 
+  @IsString({ message: 'Comment should be a string' })
   @IsNotEmpty()
   readonly comment: string;
 }
