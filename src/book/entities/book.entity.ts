@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Author } from './author.entity';
+import { Author } from '../../author/entities/author.entity';
 import {
   MAX_BOOK_GENRE_CHARACTERS,
   MAX_BOOK_NAME_CHARACTERS,

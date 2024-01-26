@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { AuthorService } from 'src/author/author.service';
 import { Book } from './entities/book.entity';
-import { Author } from './entities/author.entity';
+import { Author } from '../author/entities/author.entity';
 import type { CreateBookDto } from './dto/create-book.dto';
 import type { UpdateBookDto } from './dto/update-book.dto';
 import type { BookResponseDto } from './dto/book.dto';

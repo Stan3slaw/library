@@ -7,11 +7,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Book } from './book.entity';
+import { Book } from '../../book/entities/book.entity';
 import {
   MAX_AUTHOR_NAME_CHARACTERS,
   MAX_AUTHOR_SURNAME_CHARACTERS,
-} from '../constants';
+} from '../../book/constants';
 
 @Entity({ name: 'authors' })
 export class Author {

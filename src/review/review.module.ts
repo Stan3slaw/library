@@ -6,7 +6,7 @@ import { BookModule } from 'src/book/book.module';
 import { BookService } from 'src/book/book.service';
 import { AuthorService } from 'src/author/author.service';
 import { Book } from 'src/book/entities/book.entity';
-import { Author } from 'src/book/entities/author.entity';
+import { Author } from 'src/author/entities/author.entity';
 import { ReviewController } from './review.controller';
 import { ReviewService } from './review.service';
 import { ReviewSchema } from './review.schema';

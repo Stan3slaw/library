@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BookModule } from './book/book.module';
 import ormconfig from './config/configuration';
 import { Book } from './book/entities/book.entity';
-import { Author } from './book/entities/author.entity';
+import { Author } from './author/entities/author.entity';
 import { ReviewModule } from './review/review.module';
 import { AuthorModule } from './author/author.module';
 
