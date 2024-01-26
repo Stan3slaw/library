@@ -99,7 +99,10 @@ export class BookService {
     bookId: number,
     updateBookDto: UpdateBookDto,
   ): Promise<BookResponseDto> {
-    const foundBook = await this.findOne(bookId);
+    const foundBook = await this.bookRepository.findOne({
+      where: { id: bookId },
+      relations: ['author'],
+    });
 
     if (!foundBook) {
       throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
@@ -114,18 +117,7 @@ export class BookService {
   }
 
   async delete(bookId: number): Promise<void> {
-    if (!bookId) {
-      throw new HttpException(
-        'Book id is not specified',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const book = await this.bookRepository.findOne({ where: { id: bookId } });
-
-    if (!book) {
-      throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
-    }
+    await this.findOne(bookId);
 
     this.bookRepository.delete({ id: bookId });
   }
