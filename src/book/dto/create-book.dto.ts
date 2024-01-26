@@ -1,11 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  MaxLength,
-  ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
 import {
   MAX_BOOK_GENRE_CHARACTERS,
@@ -40,8 +33,6 @@ export class CreateBookDto {
   @IsNumber({}, { message: 'Book year should be a number' })
   readonly year: number;
 
-  @ValidateNested({ each: true })
-  @Type(() => CreateAuthorWithIdDto)
   @IsNotEmpty()
   readonly author: CreateAuthorWithIdDto;
 }
