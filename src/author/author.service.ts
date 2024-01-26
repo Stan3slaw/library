@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Author } from 'src/book/entities/author.entity';
 import type { CreateAuthorDto } from './dto/create-author.dto';
+import type { AuthorResponseDto } from './dto/author.dto';
 
 @Injectable()
 export class AuthorService {
@@ -12,18 +13,32 @@ export class AuthorService {
     private readonly authorRepository: Repository<Author>,
   ) {}
 
-  async findOneOrCreate(createAuthorDto: CreateAuthorDto): Promise<Author> {
+  private static mapAuthorEntityToAuthorResponseDto(
+    authorEntity: Author,
+  ): AuthorResponseDto {
+    return {
+      id: authorEntity.id,
+      name: authorEntity.name,
+      surname: authorEntity.surname,
+      createdAt: authorEntity.created_at,
+      updatedAt: authorEntity.updated_at,
+    };
+  }
+
+  async findOneOrCreate(
+    createAuthorDto: CreateAuthorDto,
+  ): Promise<AuthorResponseDto> {
     const author = await this.authorRepository.findOne({
       where: { id: createAuthorDto?.id },
     });
 
     if (author) {
-      return author;
+      return AuthorService.mapAuthorEntityToAuthorResponseDto(author);
     }
 
     const createdAuthor = await this.authorRepository.create(createAuthorDto);
     await this.authorRepository.save(author);
 
-    return createdAuthor;
+    return AuthorService.mapAuthorEntityToAuthorResponseDto(createdAuthor);
   }
 }

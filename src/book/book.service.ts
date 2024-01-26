@@ -7,6 +7,7 @@ import { Book } from './entities/book.entity';
 import { Author } from './entities/author.entity';
 import type { CreateBookDto } from './dto/create-book.dto';
 import type { UpdateBookDto } from './dto/update-book.dto';
+import type { BookResponseDto } from './dto/book.dto';
 
 @Injectable()
 export class BookService {
@@ -16,7 +17,27 @@ export class BookService {
     private readonly authorService: AuthorService,
   ) {}
 
-  async create(createBookDto: CreateBookDto): Promise<Book> {
+  private static mapBookEntityToBookResponseDto(
+    bookEntity: Book,
+  ): BookResponseDto {
+    return {
+      id: bookEntity.id,
+      name: bookEntity.name,
+      genre: bookEntity.genre,
+      description: bookEntity.description,
+      numberOfPages: bookEntity.number_of_pages,
+      year: bookEntity.year,
+      createdAt: bookEntity.created_at,
+      updatedAt: bookEntity.updated_at,
+      author: {
+        id: bookEntity.author.id,
+        name: bookEntity.author.name,
+        surname: bookEntity.author.surname,
+      },
+    };
+  }
+
+  async create(createBookDto: CreateBookDto): Promise<BookResponseDto> {
     const { author: authorDto, ...bookDto } = createBookDto;
 
     const author = await this.authorService.findOneOrCreate(authorDto);
@@ -29,17 +50,22 @@ export class BookService {
       year: bookDto.year,
       author,
     });
+    await this.bookRepository.save(createdBook);
 
-    return this.bookRepository.save(createdBook);
+    return BookService.mapBookEntityToBookResponseDto(createdBook);
   }
 
-  async findAll(): Promise<Book[]> {
+  async findAll(): Promise<BookResponseDto[]> {
     const books = await this.bookRepository.find({ relations: ['author'] });
 
-    return books;
+    const mappedBooks = books.map((book) =>
+      BookService.mapBookEntityToBookResponseDto(book),
+    );
+
+    return mappedBooks;
   }
 
-  async findOne(bookId: number): Promise<Book> {
+  async findOne(bookId: number): Promise<BookResponseDto> {
     if (!bookId) {
       throw new HttpException(
         'Book id is not specified',
@@ -53,10 +79,13 @@ export class BookService {
       throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
     }
 
-    return book;
+    return BookService.mapBookEntityToBookResponseDto(book);
   }
 
-  async update(bookId: number, updateBookDto: UpdateBookDto): Promise<Book> {
+  async update(
+    bookId: number,
+    updateBookDto: UpdateBookDto,
+  ): Promise<BookResponseDto> {
     const foundBook = await this.findOne(bookId);
 
     if (!foundBook) {
@@ -72,7 +101,7 @@ export class BookService {
       ...{ ...updateBookDto, author: { ...author } },
     });
 
-    return updatedBook;
+    return BookService.mapBookEntityToBookResponseDto(updatedBook);
   }
 
   async delete(bookId: number): Promise<void> {

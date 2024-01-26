@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common';
 
 import { BookService } from './book.service';
-import type { Book } from './entities/book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import type { BookResponseDto } from './dto/book.dto';
 
 @Controller('book')
 export class BookController {
@@ -22,17 +22,19 @@ export class BookController {
 
   @UsePipes(new ValidationPipe())
   @Post()
-  async create(@Body() createBookDto: CreateBookDto): Promise<Book> {
+  async create(@Body() createBookDto: CreateBookDto): Promise<BookResponseDto> {
     return this.booksService.create(createBookDto);
   }
 
   @Get()
-  async findAll(): Promise<Book[]> {
+  async findAll(): Promise<BookResponseDto[]> {
     return this.booksService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) bookId: number): Promise<Book> {
+  async findOne(
+    @Param('id', ParseIntPipe) bookId: number,
+  ): Promise<BookResponseDto> {
     return this.booksService.findOne(bookId);
   }
 
@@ -40,7 +42,7 @@ export class BookController {
   async update(
     @Param('id', ParseIntPipe) bookId: number,
     @Body() updateBookDto: UpdateBookDto,
-  ): Promise<Book> {
+  ): Promise<BookResponseDto> {
     return this.booksService.update(bookId, updateBookDto);
   }
 
