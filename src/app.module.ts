@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { BookModule } from './book/book.module';
-import ormconfig from './config/configuration';
+import ormconfig from './common/config/configuration';
 import { Book } from './book/entities/book.entity';
 import { Author } from './author/entities/author.entity';
 import { ReviewModule } from './review/review.module';

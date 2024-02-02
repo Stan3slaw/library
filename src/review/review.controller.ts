@@ -16,7 +16,7 @@ import { ObjectId } from 'mongoose';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import type { ReviewDocument } from './review.schema';
-import { ParseObjectIdPipe } from './pipes/parse-object-id.pipe';
+import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 import { UpdateReviewDto } from './dto/update-review.dto';
 
 @Controller('review')
