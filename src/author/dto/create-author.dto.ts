@@ -7,13 +7,13 @@ import {
 
 export class CreateAuthorDto {
   @MaxLength(MAX_AUTHOR_NAME_CHARACTERS, {
-    message: 'Author name max length is 60 characters',
+    message: 'author name max length is 60 characters',
   })
   @IsNotEmpty()
   readonly name: string;
 
   @MaxLength(MAX_AUTHOR_SURNAME_CHARACTERS, {
-    message: 'Author surname max length is 60 characters',
+    message: 'author surname max length is 60 characters',
   })
   @IsNotEmpty()
   readonly surname: string;
@@ -21,6 +21,6 @@ export class CreateAuthorDto {
 
 export class CreateAuthorWithIdDto extends CreateAuthorDto {
   @IsOptional()
-  @IsNumber({}, { message: 'Author id should be a number' })
+  @IsNumber({}, { message: 'author id should be a number' })
   readonly id?: number;
 }
