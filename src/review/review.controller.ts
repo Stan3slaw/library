@@ -41,9 +41,8 @@ export class ReviewController {
   @Get(':id')
   async findOne(
     @Param('id', ParseObjectIdPipe) reviewId: ObjectId,
-    @Query('bookId', ParseIntPipe) bookId: number,
   ): Promise<ReviewDocument> {
-    return this.reviewService.findOneForParticularBook(reviewId, bookId);
+    return this.reviewService.findOneForParticularBook(reviewId);
   }
 
   @UsePipes(new ValidationPipe())

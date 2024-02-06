@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import type { ObjectId } from 'mongoose';
 
 import { BookService } from 'src/book/book.service';
+import { UserService } from 'src/user/user.service';
 import type { ReviewDocument } from './review.schema';
 import type { CreateReviewDto } from './dto/create-review.dto';
 import type { UpdateReviewDto } from './dto/update-review.dto';
@@ -13,6 +14,7 @@ export class ReviewService {
   constructor(
     @InjectModel('Review') private readonly reviewModel: Model<ReviewDocument>,
     private readonly bookService: BookService,
+    private readonly userService: UserService,
   ) {}
 
   async create(createReviewDto: CreateReviewDto): Promise<ReviewDocument> {
@@ -20,6 +22,12 @@ export class ReviewService {
 
     if (!book) {
       throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    const user = await this.userService.findOne(createReviewDto.userId);
+
+    if (!user) {
+      throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
     }
 
     const review = new this.reviewModel(createReviewDto);
@@ -34,13 +42,9 @@ export class ReviewService {
     return reviews;
   }
 
-  async findOneForParticularBook(
-    reviewId: ObjectId,
-    bookId: number,
-  ): Promise<ReviewDocument> {
+  async findOneForParticularBook(reviewId: ObjectId): Promise<ReviewDocument> {
     const [review] = await this.reviewModel.find({
       _id: reviewId,
-      bookId,
     });
 
     if (!review) {

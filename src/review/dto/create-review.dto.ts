@@ -1,23 +1,29 @@
 import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
+import { ObjectId } from 'mongoose';
 
+import { IsMongoObjectId } from 'src/common/decorators/is-mongo-object-id.decorator';
 import { MAX_RATING, MIN_RATING } from '../constants';
 
 export class CreateReviewDto {
   @IsNotEmpty()
-  @IsNumber({}, { message: 'Review bookId should be a number' })
+  @IsNumber({}, { message: 'review bookId should be a number' })
   readonly bookId: number;
 
   @IsNotEmpty()
-  @IsNumber({}, { message: 'Review rating should be a number' })
+  @IsMongoObjectId()
+  readonly userId: ObjectId;
+
+  @IsNotEmpty()
+  @IsNumber({}, { message: 'review rating should be a number' })
   @Min(MIN_RATING, {
-    message: `Review rating should not be less than ${MIN_RATING}`,
+    message: `review rating should not be less than ${MIN_RATING}`,
   })
   @Max(MAX_RATING, {
-    message: `Review rating should not be greater than ${MAX_RATING}`,
+    message: `review rating should not be greater than ${MAX_RATING}`,
   })
   readonly rating: number;
 
-  @IsString({ message: 'Comment should be a string' })
+  @IsString({ message: 'review comment should be a string' })
   @IsNotEmpty()
   readonly comment: string;
 }
