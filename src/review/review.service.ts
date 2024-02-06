@@ -42,7 +42,7 @@ export class ReviewService {
     return reviews;
   }
 
-  async findOneForParticularBook(reviewId: ObjectId): Promise<ReviewDocument> {
+  async findOne(reviewId: ObjectId): Promise<ReviewDocument> {
     const [review] = await this.reviewModel.find({
       _id: reviewId,
     });

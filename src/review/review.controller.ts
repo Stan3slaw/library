@@ -42,7 +42,7 @@ export class ReviewController {
   async findOne(
     @Param('id', ParseObjectIdPipe) reviewId: ObjectId,
   ): Promise<ReviewDocument> {
-    return this.reviewService.findOneForParticularBook(reviewId);
+    return this.reviewService.findOne(reviewId);
   }
 
   @UsePipes(new ValidationPipe())
