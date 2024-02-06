@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import type { Document } from 'mongoose';
-import { Types, ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 import { MAX_RATING, MIN_RATING } from './constants';
 
@@ -8,8 +8,8 @@ export type ReviewDocument = Review & Document;
 
 @Schema({ timestamps: true })
 export class Review {
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  userId: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  userId: mongoose.Types.ObjectId;
 
   @Prop({ type: Number })
   bookId: number;
