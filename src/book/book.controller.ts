@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import type { BookResponseDto } from './dto/book.dto';
+import { GetBooksQueryDto } from './dto/get-books-query.dto';
 
 @Controller('book')
 export class BookController {
@@ -27,8 +29,11 @@ export class BookController {
   }
 
   @Get()
-  async findAll(): Promise<BookResponseDto[]> {
-    return this.booksService.findAll();
+  async findAll(
+    @Query(new ValidationPipe())
+    query: GetBooksQueryDto,
+  ): Promise<BookResponseDto[]> {
+    return this.booksService.findAll(query);
   }
 
   @Get(':id')

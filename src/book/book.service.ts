@@ -8,6 +8,7 @@ import { Book } from './entities/book.entity';
 import type { CreateBookDto } from './dto/create-book.dto';
 import type { UpdateBookDto } from './dto/update-book.dto';
 import type { BookResponseDto } from './dto/book.dto';
+import type { GetBooksQueryDto } from './dto/get-books-query.dto';
 
 @Injectable()
 export class BookService {
@@ -65,8 +66,36 @@ export class BookService {
     return BookService.mapBookEntityToBookResponseDto(createdBook);
   }
 
-  async findAll(): Promise<BookResponseDto[]> {
-    const books = await this.bookRepository.find({ relations: ['author'] });
+  async findAll(query: GetBooksQueryDto): Promise<BookResponseDto[]> {
+    const queryBuilder = this.bookRepository
+      .createQueryBuilder('book')
+      .leftJoinAndSelect('book.author', 'author');
+
+    if (query.date) {
+      queryBuilder.andWhere('DATE(book.created_at) = :date', {
+        date: query.date,
+      });
+    }
+
+    if (query.fromTime) {
+      queryBuilder.andWhere(
+        'CAST(book.created_at AS TIME) >= CAST(:fromTime AS TIME)',
+        {
+          fromTime: query.fromTime,
+        },
+      );
+    }
+
+    if (query.toTime) {
+      queryBuilder.andWhere(
+        'CAST(book.created_at AS TIME) <= CAST(:toTime AS TIME)',
+        {
+          toTime: query.toTime,
+        },
+      );
+    }
+
+    const books = await queryBuilder.getMany();
 
     const mappedBooks = books.map((book) =>
       BookService.mapBookEntityToBookResponseDto(book),
