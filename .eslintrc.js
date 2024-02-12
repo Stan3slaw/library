@@ -51,6 +51,7 @@ module.exports = {
       {
         vars: 'all',
         varsIgnorePattern: '_',
+        argsIgnorePattern: '^_',
       },
     ],
     'prettier/prettier': [
