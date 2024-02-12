@@ -1,18 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { BookModule } from './book/book.module';
-import ormconfig from './common/config/configuration';
-import { Book } from './book/entities/book.entity';
-import { Author } from './author/entities/author.entity';
+import ormConfig from './common/configuration/orm.config';
 import { ReviewModule } from './review/review.module';
 import { AuthorModule } from './author/author.module';
 import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({ ...ormconfig, entities: [Book, Author] }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [ormConfig],
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) =>
+        configService.get('ormConfig'),
+    }),
     MongooseModule.forRoot(process.env.MONGODB_URL, {
       dbName: process.env.MONGODB_DATABASE_NAME,
       auth: {
