@@ -35,7 +35,7 @@ Also, there are few more typeorm commands that used for manipulating database:
 
 ```
 pnpm pg:drop // Using for dropping database schema (be careful while using this one, it's not recommended to use on production)
-pnpm pg:generate ./src/common/migrations/<NameOfTheMigration> // Using for generating new migrations in folder with migrations, in this case ./src/common/migrations/
+pnpm pg:generate ./src/common/db/postgresql/migrations/<NameOfTheMigration> // Using for generating new migrations in folder with migrations, in this case ./src/common/db/postgresql/migrations/
 ```
 
 ## Documentation

@@ -9,7 +9,7 @@ export const ormConfig: DataSourceOptions = {
   username: process.env.PG_USER || 'postgres',
   password: process.env.PG_PASSWORD || '000000',
   database: process.env.PG_DATABASE || 'library',
-  migrations: ['dist/common/migrations/*{.ts,.js}'],
+  migrations: ['dist/common/db/postgresql/migrations/*{.ts,.js}'],
   entities: ['dist/**/*.entity{.ts,.js}'],
   logging: Boolean(process.env.IS_VERBOSE_MODE),
   synchronize: false,
