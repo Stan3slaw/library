@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli -d ./src/common/configuration/orm.config.ts",
     "pg:migrate": "pnpm typeorm migration:run",
+    "pg:generate": "pnpm typeorm migration:generate",
     "pg:drop": "pnpm typeorm schema:drop",
     "pg:seed": "ts-node ./node_modules/typeorm/cli -d ./src/common/configuration/orm-seed.config.ts migration:run"
   },
