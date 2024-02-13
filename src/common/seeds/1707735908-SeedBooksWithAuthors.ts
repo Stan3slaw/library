@@ -1,7 +1,7 @@
 import type { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class SeedBooksWithAuthors1612733467000 implements MigrationInterface {
-  name = 'SeedBooksWithAuthors1612733467000';
+export class SeedBooksWithAuthors1707735908 implements MigrationInterface {
+  name = 'SeedBooksWithAuthors1707735908';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.startTransaction();
