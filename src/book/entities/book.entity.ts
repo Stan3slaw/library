@@ -34,6 +34,16 @@ export class Book {
   @Column()
   year: number;
 
+  // Uncomment if language column is needed
+  // @Column({
+  //   default: 'english',
+  //   transformer: {
+  //     to: (value) => value.toLowerCase(),
+  //     from: (value) => value,
+  //   },
+  // })
+  // language: string;
+
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(3)',

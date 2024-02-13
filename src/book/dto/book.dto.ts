@@ -7,6 +7,8 @@ export interface BookResponseDto {
   description: string;
   numberOfPages: number;
   year: number;
+  // Uncomment if language is needed
+  // language: string;
   createdAt: Date;
   updatedAt: Date;
   author: AuthorResponseDto;
