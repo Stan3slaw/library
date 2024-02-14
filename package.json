@@ -22,7 +22,11 @@
     "pg:migrate": "pnpm typeorm migration:run",
     "pg:generate": "pnpm typeorm migration:generate",
     "pg:drop": "pnpm typeorm schema:drop",
-    "pg:seed": "ts-node ./node_modules/typeorm/cli -d ./src/common/db/postgresql/configuration/orm-seed.config.ts migration:run"
+    "pg:seed": "ts-node ./node_modules/typeorm/cli -d ./src/common/db/postgresql/configuration/orm-seed.config.ts migration:run",
+    "mongo:migrate": "migrate --migrations-dir=\"./src/common/db/mongodb/migrations\" --compiler=\"ts:./src/common/db/mongodb/utils/ts-compiler.js\"",
+    "migrate:create": "migrate create --template-file ./src/common/db/mongodb/templates/migration.template.ts --migrations-dir=\"./src/common/db/mongodb/migrations\" --compiler=\"ts:./src/common/db/mongodb/utils/ts-compiler.js\"",
+    "migrate:up": "pnpm mongo:migrate up",
+    "migrate:down": "pnpm mongo:migrate down"
   },
   "dependencies": {
     "@nestjs/common": "9.0.0",
@@ -33,6 +37,8 @@
     "@nestjs/typeorm": "10.0.1",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.0",
+    "migrate": "2.1.0",
+    "mongodb": "6.3.0",
     "mongoose": "8.0.4",
     "pg": "8.11.3",
     "reflect-metadata": "0.1.13",
