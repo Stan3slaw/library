@@ -54,7 +54,11 @@ volumes:
 
 ### MongoDB
 
-[Migrate](https://www.npmjs.com/package/migrate) library is using for creating and running migrations for MongoDB. All migrations store in `./src/common/db/mongodb/migrations`.
+[Migrate](https://www.npmjs.com/package/migrate) library is using for creating and running migrations for MongoDB.
+
+All migrations store in `./src/common/db/mongodb/migrations`.
+
+The migrations history store in `./.migrate` (do not commit this file).
 
 - Creating migration based on template ./src/common/db/mongodb/templates/migration.template.ts
 
