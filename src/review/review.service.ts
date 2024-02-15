@@ -1,6 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import type { ObjectId } from 'mongoose';
 
 import { BookService } from 'src/book/book.service';
@@ -8,11 +6,12 @@ import { UserService } from 'src/user/user.service';
 import type { ReviewDocument } from './review.schema';
 import type { CreateReviewDto } from './dto/create-review.dto';
 import type { UpdateReviewDto } from './dto/update-review.dto';
+import { ReviewRepository } from './review.repository';
 
 @Injectable()
 export class ReviewService {
   constructor(
-    @InjectModel('Review') private readonly reviewModel: Model<ReviewDocument>,
+    private readonly reviewRepository: ReviewRepository,
     private readonly bookService: BookService,
     private readonly userService: UserService,
   ) {}
@@ -30,28 +29,27 @@ export class ReviewService {
       throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
     }
 
-    const review = new this.reviewModel(createReviewDto);
-    const savedReview = await review.save();
+    const createdReview = await this.reviewRepository.create(createReviewDto);
 
-    return savedReview;
+    return createdReview;
   }
 
   async findAllForParticularBook(bookId: number): Promise<ReviewDocument[]> {
-    const reviews = await this.reviewModel.find({ bookId });
+    const reviews = await this.reviewRepository.findAllForParticularBook(
+      bookId,
+    );
 
     return reviews;
   }
 
   async findOne(reviewId: ObjectId): Promise<ReviewDocument> {
-    const [review] = await this.reviewModel.find({
-      _id: reviewId,
-    });
+    const foundReview = await this.reviewRepository.findOne(reviewId);
 
-    if (!review) {
+    if (!foundReview) {
       throw new HttpException('Review does not exist', HttpStatus.NOT_FOUND);
     }
 
-    return review;
+    return foundReview;
   }
 
   async update(
@@ -64,17 +62,16 @@ export class ReviewService {
       throw new HttpException('Book does not exist', HttpStatus.NOT_FOUND);
     }
 
-    const updatedReview = await this.reviewModel.findOneAndUpdate(
-      { _id: reviewId },
+    const updatedReview = await this.reviewRepository.update(
+      reviewId,
       updateReviewDto,
-      { new: true },
     );
 
     return updatedReview;
   }
 
   async delete(reviewId: ObjectId): Promise<void> {
-    const review = await this.reviewModel.findOne(reviewId);
+    const review = await this.reviewRepository.findOne(reviewId);
 
     if (!review) {
       throw new HttpException('Review does not exist', HttpStatus.NOT_FOUND);

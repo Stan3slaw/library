@@ -11,6 +11,7 @@ import { Author } from 'src/author/entities/author.entity';
 import { ReviewController } from './review.controller';
 import { ReviewService } from './review.service';
 import { ReviewSchema } from './review.schema';
+import { ReviewRepository } from './review.repository';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { ReviewSchema } from './review.schema';
     BookModule,
   ],
   controllers: [ReviewController],
-  providers: [ReviewService],
+  providers: [ReviewService, ReviewRepository],
 })
 export class ReviewModule {}
