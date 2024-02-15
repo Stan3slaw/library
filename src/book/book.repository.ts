@@ -24,28 +24,16 @@ export class BookRepository {
       .createQueryBuilder('book')
       .leftJoinAndSelect('book.author', 'author');
 
-    if (query.date) {
-      queryBuilder.andWhere('DATE(book.created_at) = :date', {
-        date: query.date,
+    if (query.fromTime) {
+      queryBuilder.andWhere('book.created_at >= :fromTime', {
+        fromTime: query.fromTime,
       });
     }
 
-    if (query.fromTime) {
-      queryBuilder.andWhere(
-        'CAST(book.created_at AS TIME) >= CAST(:fromTime AS TIME)',
-        {
-          fromTime: query.fromTime,
-        },
-      );
-    }
-
     if (query.toTime) {
-      queryBuilder.andWhere(
-        'CAST(book.created_at AS TIME) <= CAST(:toTime AS TIME)',
-        {
-          toTime: query.toTime,
-        },
-      );
+      queryBuilder.andWhere('book.created_at <= :toTime', {
+        toTime: query.toTime,
+      });
     }
 
     const foundBooks = await queryBuilder.getMany();
