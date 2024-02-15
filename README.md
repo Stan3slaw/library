@@ -26,16 +26,52 @@ volumes:
 - Using typeorm migrating and seeding data features. In this project typeorm is using to manipulate PostgreSQL database.
   After Docker container started run these commands inside container:
 
+  - Running existed migrations (will create tables, since there is creating tables migration)
+
+  ```
+  pnpm pg:migrate
+  ```
+
+  - Seeding data in tables
+
+  ```
+  pnpm pg:seed
+  ```
+
+  Also, there are few more typeorm commands that used for manipulating database:
+
+  - Dropping database schema (be careful while using this one, it's not recommended to use on production)
+
+  ```
+  pnpm pg:drop
+  ```
+
+  - Generating new migrations in folder with migrations, in this case ./src/common/db/postgresql/migrations/
+
+  ```
+  pnpm pg:generate ./src/common/db/postgresql/migrations/<NameOfTheMigration>
+  ```
+
+### MongoDB
+
+[Migrate](https://www.npmjs.com/package/migrate) library is using for creating and running migrations for MongoDB. All migrations store in `./src/common/db/mongodb/migrations`.
+
+- Creating migration based on template ./src/common/db/mongodb/templates/migration.template.ts
+
 ```
-pnpm pg:migrate // Using for running existed migrations
-pnpm pg:seed // Using for seeding data in tables
+pnpm migrate:create -- <migration name>
 ```
 
-Also, there are few more typeorm commands that used for manipulating database:
+- Running migration update script
 
 ```
-pnpm pg:drop // Using for dropping database schema (be careful while using this one, it's not recommended to use on production)
-pnpm pg:generate ./src/common/db/postgresql/migrations/<NameOfTheMigration> // Using for generating new migrations in folder with migrations, in this case ./src/common/db/postgresql/migrations/
+pnpm migrate:up
+```
+
+- Running migration downgrade script
+
+```
+pnpm migrate:down
 ```
 
 ## Documentation
