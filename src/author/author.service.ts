@@ -1,18 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
-import { Author } from 'src/author/entities/author.entity';
+import type { Author } from 'src/author/entities/author.entity';
 import type { CreateAuthorDto } from './dto/create-author.dto';
 import type { UpdateAuthorDto } from './dto/update-author.dto';
 import type { AuthorResponseDto } from './dto/author.dto';
+import { AuthorRepository } from './author.repository';
+import type { CreateUpdateAuthor } from './interfaces/create-update-author.interface';
 
 @Injectable()
 export class AuthorService {
-  constructor(
-    @InjectRepository(Author)
-    private readonly authorRepository: Repository<Author>,
-  ) {}
+  constructor(private readonly authorRepository: AuthorRepository) {}
 
   private static mapAuthorEntityToAuthorResponseDto(
     authorEntity: Author,
@@ -24,9 +21,29 @@ export class AuthorService {
     };
   }
 
+  private static mapCreateAuthorDtoToAuthorEntity(
+    createAuthorDto: CreateAuthorDto,
+  ): CreateUpdateAuthor {
+    return {
+      name: createAuthorDto.name,
+      surname: createAuthorDto.surname,
+    };
+  }
+
+  private static mapUpdateAuthorDtoToAuthorEntity(
+    author: Author,
+    updateAuthorDto: UpdateAuthorDto,
+  ): CreateUpdateAuthor {
+    return {
+      name: updateAuthorDto.name ?? author.name,
+      surname: updateAuthorDto.surname ?? author.surname,
+    };
+  }
+
   async create(createAuthorDto: CreateAuthorDto): Promise<Author> {
-    const createdAuthor = this.authorRepository.create(createAuthorDto);
-    await this.authorRepository.save(createdAuthor);
+    const createdAuthor = this.authorRepository.create(
+      AuthorService.mapCreateAuthorDtoToAuthorEntity(createAuthorDto),
+    );
 
     return createdAuthor;
   }
@@ -39,7 +56,7 @@ export class AuthorService {
       );
     }
 
-    const foundAuthor = await this.authorRepository.findOneBy({ id: authorId });
+    const foundAuthor = await this.authorRepository.findOne(authorId);
 
     if (!foundAuthor) {
       throw new HttpException('Author does not exist', HttpStatus.NOT_FOUND);
@@ -54,9 +71,12 @@ export class AuthorService {
   ): Promise<AuthorResponseDto> {
     const foundAuthor = await this.findOne(authorId);
 
-    const updatedAuthor = await this.authorRepository.save({
+    const updatedAuthor = await this.authorRepository.update({
       ...foundAuthor,
-      ...updateAuthorDto,
+      ...AuthorService.mapUpdateAuthorDtoToAuthorEntity(
+        foundAuthor,
+        updateAuthorDto,
+      ),
     });
 
     return AuthorService.mapAuthorEntityToAuthorResponseDto(updatedAuthor);
