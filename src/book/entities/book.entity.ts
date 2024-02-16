@@ -45,13 +45,13 @@ export class Book {
   // language: string;
 
   @CreateDateColumn({
-    type: 'timestamp',
+    type: 'timestamp with time zone',
     default: () => 'CURRENT_TIMESTAMP(3)',
   })
   created_at: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp',
+    type: 'timestamp with time zone',
     default: () => 'CURRENT_TIMESTAMP(3)',
     onUpdate: 'CURRENT_TIMESTAMP(3)',
   })

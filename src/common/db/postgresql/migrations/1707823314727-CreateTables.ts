@@ -9,8 +9,8 @@ export class CreateTables1707823314727 implements MigrationInterface {
         "id" SERIAL NOT NULL PRIMARY KEY,
         "name" varchar(60) NOT NULL,
         "surname" varchar(60) NOT NULL,
-        "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+        "created_at" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updated_at" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
     `);
 
@@ -22,8 +22,8 @@ export class CreateTables1707823314727 implements MigrationInterface {
         "description" TEXT NOT NULL,
         "number_of_pages" INT NOT NULL,
         "year" INT NOT NULL,
-        "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "created_at" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updated_at" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
         "author_id" integer REFERENCES authors(id) ON DELETE CASCADE
       )
     `);
