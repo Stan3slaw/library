@@ -6,8 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 
@@ -22,13 +20,11 @@ import type { UserDocument } from './user.schema';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserDocument> {
     return this.userService.create(createUserDto);
   }
 
-  @UsePipes(new ValidationPipe())
   @Patch(':id')
   async update(
     @Param('id', ParseObjectIdPipe) userId: ObjectId,

@@ -25,13 +25,13 @@ export class BookRepository {
       .leftJoinAndSelect('book.author', 'author');
 
     if (query.fromTime) {
-      queryBuilder.andWhere(`book.created_at >= :fromTime AT TIME ZONE 'UTC'`, {
+      queryBuilder.andWhere(`book.created_at >= :fromTime`, {
         fromTime: query.fromTime,
       });
     }
 
     if (query.toTime) {
-      queryBuilder.andWhere(`book.created_at <= :toTime AT TIME ZONE 'UTC'`, {
+      queryBuilder.andWhere(`book.created_at <= :toTime`, {
         toTime: query.toTime,
       });
     }

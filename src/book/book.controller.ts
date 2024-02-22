@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
   Query,
-  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 
@@ -17,12 +16,12 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import type { BookResponseDto } from './dto/book.dto';
 import { GetBooksQueryDto } from './dto/get-books-query.dto';
+import { ParseDateISOStringPipe } from '../common/pipes/parse-date-iso-string.pipe';
 
 @Controller('book')
 export class BookController {
   constructor(private readonly booksService: BookService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post()
   async create(@Body() createBookDto: CreateBookDto): Promise<BookResponseDto> {
     return this.booksService.create(createBookDto);
@@ -30,7 +29,7 @@ export class BookController {
 
   @Get()
   async findAll(
-    @Query(new ValidationPipe())
+    @Query(new ValidationPipe(), new ParseDateISOStringPipe())
     query: GetBooksQueryDto,
   ): Promise<BookResponseDto[]> {
     return this.booksService.findAll(query);
@@ -43,7 +42,6 @@ export class BookController {
     return this.booksService.findOne(bookId);
   }
 
-  @UsePipes(new ValidationPipe())
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) bookId: number,

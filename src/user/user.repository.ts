@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import type { ObjectId } from 'mongoose';
 
 import type { UserDocument } from './user.schema';
@@ -34,7 +34,7 @@ export class UserRepository {
       .aggregate<UserWithReviews>([
         {
           $match: {
-            _id: new mongoose.Types.ObjectId(userId as unknown as string),
+            _id: userId,
           },
         },
         {
@@ -45,7 +45,6 @@ export class UserRepository {
             as: 'reviews',
           },
         },
-        { $limit: 1 },
       ])
       .then((data) => data[0]);
 

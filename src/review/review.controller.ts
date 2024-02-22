@@ -8,8 +8,6 @@ import {
   Patch,
   Post,
   Query,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 
@@ -23,7 +21,6 @@ import { UpdateReviewDto } from './dto/update-review.dto';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post()
   async create(
     @Body() createReviewDto: CreateReviewDto,
@@ -45,7 +42,6 @@ export class ReviewController {
     return this.reviewService.findOne(reviewId);
   }
 
-  @UsePipes(new ValidationPipe())
   @Patch(':id')
   async update(
     @Param('id', ParseObjectIdPipe) reviewId: ObjectId,

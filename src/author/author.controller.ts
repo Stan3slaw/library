@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Param,
-  ParseIntPipe,
-  Patch,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Param, ParseIntPipe, Patch } from '@nestjs/common';
 
 import { AuthorService } from './author.service';
 import type { AuthorResponseDto } from './dto/author.dto';
@@ -16,7 +8,6 @@ import { UpdateAuthorDto } from './dto/update-author.dto';
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
-  @UsePipes(new ValidationPipe())
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) authorId: number,

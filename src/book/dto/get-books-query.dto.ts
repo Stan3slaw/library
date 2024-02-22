@@ -1,17 +1,11 @@
-import { IsOptional, IsString, Matches } from 'class-validator';
+import { IsDateString, IsOptional } from 'class-validator';
 
 export class GetBooksQueryDto {
-  @IsString({ message: 'from time should be a string' })
-  @Matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/, {
-    message: 'from time should match YYYY-MM-DDThh:mm:ss+hh:mm format',
-  })
+  @IsDateString()
   @IsOptional()
-  readonly fromTime?: string;
+  readonly fromTime?: Date;
 
-  @IsString({ message: 'to time should be a string' })
-  @Matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/, {
-    message: 'to time should match YYYY-MM-DDThh:mm:ss+hh:mm format',
-  })
+  @IsDateString()
   @IsOptional()
-  readonly toTime?: string;
+  readonly toTime?: Date;
 }
