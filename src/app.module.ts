@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import type { ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver } from '@nestjs/apollo';
 
 import { BookModule } from './book/book.module';
 import ormConfig from './common/db/postgresql/configuration/orm.config';
@@ -20,6 +23,10 @@ import { mongooseConfig } from './common/db/mongodb/configuration/mongoose.confi
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) =>
         configService.get('ormConfig'),
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      typePaths: ['./**/*.graphql'],
     }),
     MongooseModule.forRoot(process.env.MONGODB_URL, mongooseConfig),
     BookModule,
