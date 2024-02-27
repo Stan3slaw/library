@@ -1,14 +1,6 @@
 scalar Date
 scalar Void
 
-type Author {
-  id: Int!
-  name: String!
-  surname: String!
-  createdAt: Date!
-  updatedAt: Date!
-}
-
 type Book {
   id: Int!
   name: String!

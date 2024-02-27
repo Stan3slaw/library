@@ -1,0 +1,11 @@
+type Author {
+  id: Int!
+  name: String!
+  surname: String!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Mutation {
+  updateAuthor(id: Int!, name: String, surname: String): Author!
+}
