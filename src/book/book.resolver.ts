@@ -1,74 +1,53 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { VoidResolver } from 'graphql-scalars';
+
 import { BookService } from './book.service';
 import type { BookResponseDto } from './dto/book.dto';
-import type { CreateBookDto } from './dto/create-book.dto';
-import type { UpdateBookDto } from './dto/update-book.dto';
-import { CreateAuthorWithIdDto } from '../author/dto/create-author.dto';
+import { CreateBookArgs } from './args/create-book.args';
+import { UpdateBookArgs } from './args/update-book.args';
+import { Book } from './models/book.model';
+import { DateScalar } from '../common/scalars/date.scalar';
 
 @Resolver('Book')
 export class BookResolver {
   constructor(private readonly bookService: BookService) {}
 
-  @Query('books')
+  @Query(() => [Book])
   async books(
-    @Args('fromTime') fromTime: Date,
-    @Args('toTime') toTime: Date,
+    @Args('fromTime', { type: () => DateScalar }) fromTime: Date,
+    @Args('toTime', { type: () => DateScalar }) toTime: Date,
   ): Promise<BookResponseDto[]> {
     const query = { fromTime: fromTime ?? null, toTime: toTime ?? null };
 
     return this.bookService.findAll(query);
   }
 
-  @Query('book')
+  @Query(() => Book)
   async book(
     @Args('id', { type: () => Int }) id: number,
   ): Promise<BookResponseDto> {
     return this.bookService.findOne(id);
   }
 
-  @Mutation('createBook')
+  @Mutation(() => Book)
   async createBook(
-    @Args('name', { type: () => String }) name: string,
-    @Args('genre', { type: () => String }) genre: string,
-    @Args('description', { type: () => String }) description: string,
-    @Args('year', { type: () => Int }) year: number,
-    @Args('numberOfPages', { type: () => Int }) numberOfPages: number,
-    @Args('author') author: CreateAuthorWithIdDto,
+    @Args('createBookArgs', { type: () => CreateBookArgs })
+    createBookArgs: CreateBookArgs,
   ): Promise<BookResponseDto> {
-    const createBookDto: CreateBookDto = {
-      name,
-      genre,
-      description,
-      year,
-      numberOfPages,
-      author,
-    };
-
-    return this.bookService.create(createBookDto);
+    return this.bookService.create(createBookArgs);
   }
 
-  @Mutation('updateBook')
+  @Mutation(() => Book)
   async updateBook(
-    @Args('id', { type: () => Int }) id: number,
-    @Args('name', { type: () => String }) name: string,
-    @Args('genre', { type: () => String }) genre: string,
-    @Args('description', { type: () => String }) description: string,
-    @Args('year', { type: () => Int }) year: number,
-    @Args('numberOfPages', { type: () => Int }) numberOfPages: number,
+    @Args() updateBookArgs: UpdateBookArgs,
   ): Promise<BookResponseDto> {
-    const updateBookDto: UpdateBookDto = {
-      name,
-      genre,
-      description,
-      year,
-      numberOfPages,
-    };
+    const { id, ...updateBookDto } = updateBookArgs;
 
     return this.bookService.update(id, updateBookDto);
   }
 
-  @Mutation('deleteBook')
+  @Mutation(() => VoidResolver)
   async deleteBook(@Args('id', { type: () => Int }) id: number): Promise<void> {
     return this.bookService.delete(id);
   }

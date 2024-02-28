@@ -1,0 +1,56 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Author {
+  id: Int!
+  name: String!
+  surname: String!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Book {
+  id: Int!
+  name: String!
+  genre: String!
+  description: String!
+  numberOfPages: Int!
+  year: Int!
+  createdAt: Date!
+  updatedAt: Date!
+  author: Author!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Query {
+  books(fromTime: Date!, toTime: Date!): [Book!]!
+  book(id: Int!): Book!
+}
+
+type Mutation {
+  createBook(createBookArgs: CreateBookArgs!): Book!
+  updateBook(id: Int!, name: String, genre: String, description: String, year: Int, numberOfPages: Int): Book!
+  deleteBook(id: Int!): Void!
+  updateAuthor(id: Int!, name: String!, surname: String!): Author!
+}
+
+input CreateBookArgs {
+  name: String!
+  genre: String!
+  description: String!
+  year: Int!
+  numberOfPages: Int!
+  author: CreateAuthor!
+}
+
+input CreateAuthor {
+  id: Int
+  name: String!
+  surname: String!
+}
+
+"""Represents NULL values"""
+scalar Void
