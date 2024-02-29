@@ -26,7 +26,22 @@ import { mongooseConfig } from './common/db/mongodb/configuration/mongoose.confi
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.graphql'],
+      autoSchemaFile: 'schema.gql',
+      formatError: (error) => {
+        const originalError = error.extensions?.originalError as Error;
+
+        if (!originalError) {
+          return {
+            message: error.message,
+            code: error.extensions?.code,
+          };
+        }
+
+        return {
+          message: originalError.message,
+          code: error.extensions?.code,
+        };
+      },
     }),
     MongooseModule.forRoot(process.env.MONGODB_URL, mongooseConfig),
     BookModule,
