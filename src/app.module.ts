@@ -27,6 +27,12 @@ import { mongooseConfig } from './common/db/mongodb/configuration/mongoose.confi
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
+      subscriptions: {
+        'graphql-ws': true,
+        'subscriptions-transport-ws': {
+          path: '/graphql',
+        },
+      },
       formatError: (error) => {
         const originalError = error.extensions?.originalError as Error;
 

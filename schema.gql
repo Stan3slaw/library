@@ -45,3 +45,7 @@ input CreateAuthor {
 
 """Represents NULL values"""
 scalar Void
+
+type Subscription {
+  addedBook: Book!
+}

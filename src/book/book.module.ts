@@ -9,9 +9,14 @@ import { Author } from '../author/entities/author.entity';
 import { BookRepository } from './book.repository';
 import { BookResolver } from './book.resolver';
 import { DateScalar } from '../common/scalars/date.scalar';
+import { PubSubModule } from '../common/pubsub/pubsub.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Book, Author]), AuthorModule],
+  imports: [
+    TypeOrmModule.forFeature([Book, Author]),
+    AuthorModule,
+    PubSubModule,
+  ],
   controllers: [BookController],
   providers: [BookService, BookRepository, BookResolver, DateScalar],
   exports: [BookService],
