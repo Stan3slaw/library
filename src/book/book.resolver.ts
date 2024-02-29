@@ -7,20 +7,15 @@ import type { BookResponseDto } from './dto/book.dto';
 import { CreateBookArgs } from './args/create-book.args';
 import { UpdateBookArgs } from './args/update-book.args';
 import { Book } from './models/book.model';
-import { DateScalar } from '../common/scalars/date.scalar';
+import { GetBooksArgs } from './args/get-books.args';
 
 @Resolver('Book')
 export class BookResolver {
   constructor(private readonly bookService: BookService) {}
 
   @Query(() => [Book])
-  async books(
-    @Args('fromTime', { type: () => DateScalar }) fromTime: Date,
-    @Args('toTime', { type: () => DateScalar }) toTime: Date,
-  ): Promise<BookResponseDto[]> {
-    const query = { fromTime: fromTime ?? null, toTime: toTime ?? null };
-
-    return this.bookService.findAll(query);
+  async books(@Args() getBooksArgs: GetBooksArgs): Promise<BookResponseDto[]> {
+    return this.bookService.findAll(getBooksArgs);
   }
 
   @Query(() => Book)
@@ -32,8 +27,7 @@ export class BookResolver {
 
   @Mutation(() => Book)
   async createBook(
-    @Args('createBookArgs', { type: () => CreateBookArgs })
-    createBookArgs: CreateBookArgs,
+    @Args() createBookArgs: CreateBookArgs,
   ): Promise<BookResponseDto> {
     return this.bookService.create(createBookArgs);
   }
@@ -47,7 +41,7 @@ export class BookResolver {
     return this.bookService.update(id, updateBookDto);
   }
 
-  @Mutation(() => VoidResolver)
+  @Mutation(() => VoidResolver, { nullable: true })
   async deleteBook(@Args('id', { type: () => Int }) id: number): Promise<void> {
     return this.bookService.delete(id);
   }
