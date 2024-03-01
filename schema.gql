@@ -47,5 +47,5 @@ input CreateAuthor {
 scalar Void
 
 type Subscription {
-  addedBook: Book!
+  addedBook(authorId: Int!): Book!
 }

@@ -60,8 +60,15 @@ export class BookResolver {
     return this.bookService.delete(id);
   }
 
-  @Subscription(() => Book, { name: 'addedBook' })
-  onNewBookAdded(): AsyncIterator<Book> {
+  @Subscription(() => Book, {
+    name: 'addedBook',
+    filter(payload, variables) {
+      return payload.addedBook.author.id === variables.authorId;
+    },
+  })
+  onNewBookAdded(
+    @Args('authorId', { type: () => Int }) _authorId: number,
+  ): AsyncIterator<Book> {
     return this.pubSub.asyncIterator<Book>('onNewBookAdded');
   }
 }
