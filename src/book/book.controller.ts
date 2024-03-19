@@ -14,7 +14,7 @@ import {
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import type { BookResponseDto } from './dto/book.dto';
+import type { BookResponseDto } from './dto/book-response.dto';
 import { GetBooksQueryDto } from './dto/get-books-query.dto';
 import { ParseDateISOStringPipe } from '../common/pipes/parse-date-iso-string.pipe';
 

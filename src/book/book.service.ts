@@ -4,7 +4,7 @@ import { AuthorService } from 'src/author/author.service';
 import type { Author } from 'src/author/entities/author.entity';
 import type { CreateBookDto } from './dto/create-book.dto';
 import type { UpdateBookDto } from './dto/update-book.dto';
-import type { BookResponseDto } from './dto/book.dto';
+import type { BookResponseDto } from './dto/book-response.dto';
 import type { GetBooksQueryDto } from './dto/get-books-query.dto';
 import type { Book } from './entities/book.entity';
 import { BookRepository } from './book.repository';

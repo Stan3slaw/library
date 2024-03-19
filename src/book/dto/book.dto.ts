@@ -1,15 +1,34 @@
-import type { AuthorResponseDto } from 'src/author/dto/author.dto';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-export interface BookResponseDto {
+import { Author } from 'src/author/models/author.model';
+import { DateScalar } from 'src/common/scalars/date.scalar';
+
+@ObjectType()
+export class Book {
+  @Field(() => Int)
   id: number;
+
+  @Field()
   name: string;
+
+  @Field()
   genre: string;
+
+  @Field()
   description: string;
+
+  @Field(() => Int)
   numberOfPages: number;
+
+  @Field(() => Int)
   year: number;
-  // Uncomment if language is needed
-  // language: string;
+
+  @Field(() => DateScalar)
   createdAt: Date;
+
+  @Field(() => DateScalar)
   updatedAt: Date;
-  author: AuthorResponseDto;
+
+  @Field(() => Author)
+  author: Author;
 }

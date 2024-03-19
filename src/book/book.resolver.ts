@@ -11,10 +11,10 @@ import { PubSub } from 'graphql-subscriptions';
 import { VoidResolver } from 'graphql-scalars';
 
 import { BookService } from './book.service';
-import type { BookResponseDto } from './dto/book.dto';
+import type { BookResponseDto } from './dto/book-response.dto';
 import { CreateBookArgs } from './args/create-book.args';
 import { UpdateBookArgs } from './args/update-book.args';
-import { Book } from './models/book.model';
+import { Book } from './dto/book.dto';
 import { GetBooksArgs } from './args/get-books.args';
 
 @Resolver('Book')
